@@ -13,6 +13,8 @@
     </head>
     <body>
         <form action="JSPServlet" method="post">
+            <% if(request.getAttribute("validity") == "invalid" ) out.println("Invalid Credentials");%>
+            <br>
             Username:<br>
             <input type="text" name="uname" placeholder="Username"><br>
             

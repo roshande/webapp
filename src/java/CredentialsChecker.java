@@ -11,8 +11,6 @@
 public class CredentialsChecker {
     public static boolean valid(String name,String pwd)
     {
-        if(name.equals("roshan") && pwd.equals("roshan"))
-            return true;
-        return false;
+        return name.equals("roshan") && pwd.equals("roshan");
     }
 }

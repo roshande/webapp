@@ -6,10 +6,12 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,27 +31,23 @@ public class JSPServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        HttpSession session = request.getSession();
         String uname = request.getParameter("uname");
         String pwd = request.getParameter("pwd");
         
-        //String lastname = request.getParameter("lastname");
-        
-        try(PrintWriter out = response.getWriter())
-        {
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet JSPServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet JSPServlet at " + request.getContextPath() + "</h1>");
             if(CredentialsChecker.valid(uname,pwd))
-               out.println("Success");
+            {
+                RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+                //request.setAttribute(uname, rd);
+                session.setAttribute("uname", uname);
+                rd.forward(request, response);
+            }
             else
-               out.println("Wrong Credentials");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            {
+                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                request.setAttribute("validity", "invalid");
+                rd.forward(request, response);
+            }
         //try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
         /*    out.println("<!DOCTYPE html>");
